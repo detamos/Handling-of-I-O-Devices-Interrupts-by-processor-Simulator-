@@ -8,7 +8,7 @@ template<class T>
 LinearList<T> :: LinearList()
 {
 	size_ = 0;
-	buffer_ = new T[1];
+	buffer_ = new T[(int)1e6+1];
 	capacity_ = 1e6+1;
 }
 
@@ -74,7 +74,7 @@ inline T& LinearList<T> :: operator[](const int &i)
 {
 	if(!inRange(i))
 	{
-		cout<<"Error seqLinearList :: inRange = false "<<i<<"\nReturning first Element\n";
+		cout<<"Error seqLinearList :: inRange(operato[]) = false "<<i<<"\nReturning first Element\n";
 		return buffer_[0];
 	}
 	return buffer_[i];
@@ -112,13 +112,13 @@ inline T LinearList<T> :: at(const int &k)
 template<class T>
 void LinearList<T> :: push_back(const T &item)
 {
-	if(size_ == capacity_)
+	if(this->size_ == capacity_)
 	{
 		cout<<"Error seqLinearList :: push_back(list full)\n";
 		return ;
 	}
-	buffer_[size_] = item;
-	size_++;
+	buffer_[this->size_] = item;
+	this->size_++;
 }
 
 template<class T>
@@ -177,7 +177,7 @@ void LinearList<T> :: erase_pos(const int &pos)
 	{
 		buffer_[i] = buffer_[i+1];
 	}
-	size_++;
+	size_--;
 }
 
 template<class T>
@@ -199,4 +199,12 @@ void LinearList<T> :: insert(const T& item,const int &k)
 		swap(buffer_[i],buffer_[i-1]);
 	}
 	size_++;
+}
+
+template<class T>
+void LinearList<T> :: print()
+{
+	for(int i=0;i<this->size_;i++)
+		cout<<buffer_[i]<<" ";
+	cout<<endl;
 }

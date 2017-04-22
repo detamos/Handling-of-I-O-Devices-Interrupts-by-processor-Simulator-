@@ -32,6 +32,7 @@ namespace cs202
         void erase(const T& item);
         void erase_pos(const int& pos);
         void insert(const T& item, const int& k);
+        void print();
   };
 }
 
