@@ -21,31 +21,69 @@ int main()
 	cin>>n;
 	LinearList<Device> device;
 	Device temp;
+	int requestTime[n];
 	for(int i=0;i<n;i++)
 	{
 		cin>>temp.id>>temp.burstTime>>temp.delay>>temp.priority;
 		device.push_back(temp);
+		requestTime[i] = temp.delay;
+		if(i)
+			requestTime[i] += requestTime[i-1];
 	}
-	MinPriorityQueue<Device> queue;
-	int time = 0;
-	queue.insert(device[0]);
-	int cpuPriority = 10;
-	int index = 1;
-	while(!queue.empty())
+	int index = 1,time = 0;
+	MinPriorityQueue<Device> q;
+	int cpuPriority = device[0].priority;
+	Device current = device[0];
+	while(index < n)
 	{
-		Device temp = queue.extract_min();
-		cpuPriority = temp.priority;
-		if(temp.burstTime <= device[index].burstTime)
-		{
-			cpuPriority = 10;
-			queue.push_back(device[index]);
-			index++;
-			continue;
-		}
+		if(current.burstTime != 0)
+			cpuPriority = current.priority;
 		else
+			cpuPriority = 10;
+		if(time == requestTime[index])
 		{
-			break;
+			cout<<"Interruption by : "<<device[index].id<<endl;
+			cout<<"CPU Priority : "<<cpuPriority<<"\n";
+			cout<<"New Priority : "<<device[index].priority<<endl;
+			if(cpuPriority > device[index].priority)
+			{	
+				q.insert(current);
+				current = device[index];
+				cpuPriority = current.priority;
+				cout<<"New task Started\n";
+			}
+			else
+			{
+				cout<<"Continuing old task\n";
+				q.insert(device[index]);
+			}
+			index++;
 		}
+		if(current.burstTime == 0)
+		{
+			if(!q.empty())
+			{
+				current = q.extract_min();
+				cpuPriority = current.priority;
+			}
+			else
+			{
+				current.burstTime = 0;
+				cpuPriority = 10;
+				time++;
+				continue;
+			}
+		}
+		current.burstTime--;
+		time ++;
+		cout<<"Time : "<<time<<"\t"<<"Executing : "<<current.id<<endl;
 	}
+	while(current.burstTime)
+	{
+		current.burstTime--;
+		time++;
+		cout<<"Time : "<<time<<"\t"<<"Executing : "<<current.id<<endl;
+	}
+	cout<<"END\n";
 	return 0;
 }
