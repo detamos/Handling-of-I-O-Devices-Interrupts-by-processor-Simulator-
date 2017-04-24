@@ -38,7 +38,7 @@ int main()
 			break;
 		case 2:
 			choice = queue.minimum();
-			if(choice == defValue)
+			if(choice == (int)NULL)
 			{
 				cout<<"Queue empty.\n";
 				break;
@@ -47,7 +47,7 @@ int main()
 			break;
 		case 3:
 			choice = queue.extract_min();
-			if(choice == defValue)
+			if(choice == (int)NULL)
 			{
 				cout<<"Queue empty.\n";
 				break;

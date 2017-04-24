@@ -11,9 +11,6 @@
 
 using namespace cs202;
 
-#define defValue	0
-#define inf 		INT_MIN
-
 namespace cs202{
  	
  	template<class T>

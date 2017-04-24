@@ -90,7 +90,7 @@ inline T MinPriorityQueue<T> :: minimum()
 {
 	if(this->heap_size_)
 		return this->heap[0];
-	return defValue;
+	return (T)NULL;
 }
 
 template<class T>

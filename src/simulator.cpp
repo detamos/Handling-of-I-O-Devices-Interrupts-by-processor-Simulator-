@@ -47,7 +47,8 @@ int main()
 			cout<<"New Priority : "<<device[index].priority<<endl;
 			if(cpuPriority > device[index].priority)
 			{	
-				q.insert(current);
+				if(current.burstTime != 0)
+					q.insert(current);
 				current = device[index];
 				cpuPriority = current.priority;
 				cout<<"New task Started\n";
@@ -71,6 +72,7 @@ int main()
 				current.burstTime = 0;
 				cpuPriority = 10;
 				time++;
+				cout<<"Time : "<<time<<"\tExecuting : Garbage\n";
 				continue;
 			}
 		}
@@ -80,6 +82,17 @@ int main()
 	}
 	while(current.burstTime)
 	{
+		current.burstTime--;
+		time++;
+		cout<<"Time : "<<time<<"\t"<<"Executing : "<<current.id<<endl;
+	}
+	while(!q.empty() || current.burstTime != 0)
+	{
+		if(current.burstTime == 0)
+		{
+			current = q.extract_min();
+			cout<<"New Task Started\n"<<current.id<<endl;
+		}
 		current.burstTime--;
 		time++;
 		cout<<"Time : "<<time<<"\t"<<"Executing : "<<current.id<<endl;
